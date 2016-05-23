@@ -32,6 +32,8 @@ Flash Size "4M"
 Reset Method "nodemcu"
 ```
 1. Upload the [test_config](/arduino/test_config) sketch to device, light should pulse in 500ms intervals.
+1. Navigate to your `Arduino/libraries` directory and clone the [Adafruit-PWM-Servo-Driver-Library](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library) : `git clone git@github.com:adafruit/Adafruit-PWM-Servo-Driver-Library.git`
+1. Upload the [robot](/arduino/robot) sketch to device.
 
 More info at [Adafruit](https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/using-arduino-ide)
 
