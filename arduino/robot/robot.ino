@@ -1,9 +1,17 @@
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
 #include <Adafruit_PWMServoDriver.h>
+
+const char* ssid = "gEvents";
+const char* pass = "gevents242";
 
 #define MAX 600
 #define RESET 400
 #define MIN 150
 
+ESP8266WebServer server(80);
 Adafruit_PWMServoDriver pwmDriver = Adafruit_PWMServoDriver();
 
 uint8_t hip = 0;
@@ -19,21 +27,52 @@ uint8_t br[2] = {3,7};
 void setup(){
 
   Serial.begin(115200);
-  Serial.println("Robot initializing!");
+  Serial.println("Initializing...");
+  
+  center();
+  
+  Serial.print("Connecting to network...");
+  
+  WiFi.begin(ssid, pass);
+
+  while(WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  
+  Serial.println("Connected: ");
+  Serial.println(ssid);
+  Serial.println(WiFi.localIP());
+
+  //dunno
+  if(MDNS.begin("esp8266")){
+    Serial.println("MDNS responder started.");
+  }
+
+  server.on("/", handleRoot);
+  server.on("/walk", walk);
+  server.onNotFound(handleError);
+  server.begin();
 
   pwmDriver.begin();
   pwmDriver.setPWMFreq(60);
 
-  center();
   
-  yield();
 }
 
 
 void loop(){
 
-  walk();
+  server.handleClient();
 
+}
+
+void handleRoot(){
+  server.send(200, "application/json", "{\"message\":\"success!\"}");
+}
+
+void handleError(){
+  server.send(404, "application/json", "{\"message\":\"failure!\"}");
 }
 
 void walk(){
