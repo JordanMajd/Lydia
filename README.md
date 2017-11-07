@@ -6,7 +6,7 @@
 
 Lydia is a thoughtfully created, RESTfully controlled quadruped robot. She's fun to play with and easy to build.
 
-Lydia is made to be simple. She's 100% 3D printable and is powered by an ESP8266 so any device with WiFi can be used as a controller.
+Lydia is made to be simple and affordable. She's 100% 3D printable and is powered by an ESP8266 so any device with WiFi can be used as a controller.
 
 If you like or are using this project, please give it a :star: for motivation :)
 
