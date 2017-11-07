@@ -4,8 +4,6 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 ![Built with love](https://img.shields.io/badge/built%20with-%E2%9D%A4-FF8080.svg)
 
-## About
-
 Lydia is a thoughtfully created, RESTfully controlled quadruped robot. She's fun to play with and easy to build.
 
 Lydia is made to be simple. She's 100% 3D printable and is powered by an ESP8266 so any device with WiFi can be used as a controller.
@@ -15,7 +13,6 @@ If you like or are using this project, please give it a :star: for motivation :)
 ## Project Setup
 
 Instructions how to flash and program ESP8266 can be found [here](/arduino/README.md). More instructions will be released with time, including how to print everything and what parts to order.
-
 
 ## Project Roadmap
 
