@@ -1,29 +1,29 @@
-# Quadruped
+# Lydia ![Version 0.1](https://img.shields.io/badge/Version-0.1-green.svg)
+
+
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+![Built with love](https://img.shields.io/badge/built%20with-%E2%9D%A4-FF8080.svg)
 
 ## About
 
-A 3d printed, wifi controlled quadruped robot built using an ESP8266 controller.
+Lydia is a thoughtfully created, RESTfully controlled quadruped robot. She's fun to play with and easy to build.
 
-The project can be programmed in Lua, AVR C or Arduino's Processing.
+Lydia is made to be simple. She's 100% 3D printable and is powered by an ESP8266 so any device with WiFi can be used as a controller.
+
+If you like or are using this project, please give it a :star: for motivation :)
 
 ## Project Setup
 
-- [Arduino Processing Instructions](/arduino)
-- AVR C Instructions
-- NodeMCU Lua Instructions
+Instructions how to flash and program ESP8266 can be found [here](/arduino/README.md). More instructions will be released with time, including how to print everything and what parts to order.
+
 
 ## Project Roadmap
 
-- Research whether to use Arduino, Lua or AVR C.
-- Assemble chassis
-- Build firmware
-- Write webserver API
-- Write client to contact with API
-- Write servo control
-
-## Proposed Names
-
-- Per-ungol (Evlish for half spider).
+- Write webserver API.
+- Write client to contact with API.
+- Write servo control.
+- Write printing instructions.
+- Write parts list.
 
 ## Resources
 
@@ -51,10 +51,6 @@ ESP8266 / NodeMCU:
 - [NodeMCU docs](http://nodemcu.readthedocs.io/en/dev/)
 - [NodeMCU Builds](http://nodemcu-build.com/), builds custom firmware in the cloud.
 
-## Parts List
-
-TODO
-
 ## License
 
-See [LICENSE](/LICENSE).
+- MIT, see [LICENSE](/LICENSE) for more details.
