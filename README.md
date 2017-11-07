@@ -10,6 +10,8 @@ Lydia is made to be simple. She's 100% 3D printable and is powered by an ESP8266
 
 If you like or are using this project, please give it a :star: for motivation :)
 
+![Picture of Lydia](/lydia.jpg)
+
 ## Project Setup
 
 Instructions how to flash and program ESP8266 can be found [here](/arduino/README.md). More instructions will be released with time, including how to print everything and what parts to order.
