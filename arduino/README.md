@@ -14,9 +14,6 @@ Follow the instructions on [Adafruit](https://learn.adafruit.com/adafruit-feathe
 
 Afterwards, you can test out your setup by uploading the [test_config](/arduino/test_config) sketch to device. If everything worked a light should pulse in 500ms intervals.
 
-Navigate to your `Arduino/libraries` directory and clone the [Adafruit-PWM-Servo-Driver-Library](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library) : `git clone git@github.com:adafruit/Adafruit-PWM-Servo-Driver-Library.git`
-
-
 ## Programming the ESP8266
 
 1. Upload the [robot](/arduino/robot) sketch to device.

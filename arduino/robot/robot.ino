@@ -1,11 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
 #include <Adafruit_PWMServoDriver.h>
 
-const char* ssid = "gEvents";
-const char* pass = "gevents242";
+const char* ssid = "...";
+const char* pass = "...r";
 
 #define MAX 600
 #define RESET 400
@@ -23,18 +22,15 @@ uint8_t fr[2] = {1,5};
 uint8_t bl[2] = {2,6};
 uint8_t br[2] = {3,7};
 
-
 void setup(){
 
   Serial.begin(115200);
   Serial.println("Initializing...");
   
-  center();
-  
   Serial.print("Connecting to network...");
-  
-  WiFi.begin(ssid, pass);
 
+  // connect to WiFi
+  WiFi.begin(ssid, pass);
   while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -44,27 +40,21 @@ void setup(){
   Serial.println(ssid);
   Serial.println(WiFi.localIP());
 
-  //dunno
-  if(MDNS.begin("esp8266")){
-    Serial.println("MDNS responder started.");
-  }
+  // init pwm
+  pwmDriver.begin();
+  pwmDriver.setPWMFreq(60);
+  // center leg position
+  center();
 
+  // init server & routes
   server.on("/", handleRoot);
   server.on("/walk", walk);
   server.onNotFound(handleError);
   server.begin();
-
-  pwmDriver.begin();
-  pwmDriver.setPWMFreq(60);
-
-  
 }
 
-
 void loop(){
-
   server.handleClient();
-
 }
 
 void handleRoot(){
@@ -83,7 +73,6 @@ void walk(){
   moveLeg(bl);
 
   moveBody();
-  
 }
 
 void center(){
