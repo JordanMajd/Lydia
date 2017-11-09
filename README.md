@@ -12,17 +12,79 @@ If you like or are using this project, please give it a :star: for motivation :)
 
 ![Picture of Lydia](/lydia.jpg)
 
+## API Docs
+
+Lydia is controlled by sending her HTTP request. This means that you can simply open up a web browser or use `curl` to start issuing her commands.
+
+#### Walk Request
+
+Issue walk commands to Lydia by making a post request to `/walk/`.
+
+```
+direction: the direction to move Lydia
+  - forward
+  - backward
+  - left
+  - right
+duration: the amount of ms to move Lydia
+```
+
+Example walk request:
+
+```
+POST /walk/
+body:
+{
+  "direction": "forward",
+  "duration": 3000
+}
+```
+
+Responds with `200` upon success.
+
+#### Turn Request
+
+Lydia may be rotated by making a post request to `/turn/`.
+
+```
+direction: the direction to rotate Lydia
+  - clockwise
+  - counter
+duration: the amount of ms to rotate Lydia
+```
+
+Example Turn Request:
+
+```
+POST /turn/
+body:
+{
+  "direction": "clockwise",
+  "duration": 3
+}
+```
+
+Responds with `200` upon success.
+
+#### API Info
+
+You may request API info by making a GET request to Lydia's webroot:
+
+```
+GET /
+```
+
+This will respond with a JSON object describing the other endpoints. It is currently not yet implemented.
+
 ## Project Setup
 
 Instructions how to flash and program ESP8266 can be found [here](/arduino/README.md). More instructions will be released with time, including how to print everything and what parts to order.
 
 ## Project Roadmap
 
-- Write webserver API.
+- Implement webserver API (in-progress).
+- Update documentation to be beginner friendly.
 - Write client to contact with API.
-- Write servo control.
-- Write printing instructions.
-- Write parts list.
 
 ## Resources
 
