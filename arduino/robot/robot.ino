@@ -48,7 +48,8 @@ void setup(){
 
   // init server & routes
   server.on("/", handleRoot);
-  server.on("/walk", walk);
+  server.on("/walk", handleWalk);
+  server.on("/turn", handleTurn);
   server.onNotFound(handleError);
   server.begin();
 }
@@ -57,15 +58,27 @@ void loop(){
   server.handleClient();
 }
 
+// GET /
+// Returns API info
+// TODO
 void handleRoot(){
   server.send(200, "application/json", "{\"message\":\"success!\"}");
 }
 
+
+// TODO send useful error message
 void handleError(){
-  server.send(404, "application/json", "{\"message\":\"failure!\"}");
+  server.send(404, "application/json", "{\"message\":\"Something went wrong!\"}");
 }
 
-void walk(){
+// POST /walk
+// Direction:
+// - Forward
+// - Left
+// - Right
+// - Backward
+// Duration
+void handleWalk(){
   
   moveLeg(fl);
   moveLeg(br);
@@ -73,6 +86,18 @@ void walk(){
   moveLeg(bl);
 
   moveBody();
+
+  server.send(200, "application/json", "{\"message\":\"Success!\"}");
+}
+
+
+// POST /turn
+// Direction
+//  - Clockwise
+//  - Counter-clockwise
+// Duration
+void handleTurn(){
+  server.send(403, "application/json", "{\"message\":\"Not Implemented!\"}");
 }
 
 void center(){
@@ -83,6 +108,7 @@ void center(){
 
   delay(300);
 }
+
 
 void moveLeg(uint8_t *leg){
 
