@@ -20,6 +20,8 @@ Lydia is controlled by sending her HTTP request. This means that you can simply 
 
 Issue walk commands to Lydia by making a post request to `/walk/`.
 
+Arguments:
+
 ```
 direction: the direction to move Lydia
   - forward
@@ -32,12 +34,7 @@ duration: the amount of ms to move Lydia
 Example walk request:
 
 ```
-POST /walk/
-body:
-{
-  "direction": "forward",
-  "duration": 3000
-}
+POST /walk?direction=forward&duration=3000
 ```
 
 Responds with `200` upon success.
@@ -45,6 +42,8 @@ Responds with `200` upon success.
 #### Turn Request
 
 Lydia may be rotated by making a post request to `/turn/`.
+
+Arguments:
 
 ```
 direction: the direction to rotate Lydia
@@ -56,12 +55,7 @@ duration: the amount of ms to rotate Lydia
 Example Turn Request:
 
 ```
-POST /turn/
-body:
-{
-  "direction": "clockwise",
-  "duration": 3
-}
+POST /turn?direction=clockwise&duration=3000
 ```
 
 Responds with `200` upon success.
@@ -74,7 +68,7 @@ You may request API info by making a GET request to Lydia's webroot:
 GET /
 ```
 
-This will respond with a JSON object describing the other endpoints. It is currently not yet implemented.
+This will respond with a JSON object describing the other endpoints.
 
 ## Project Setup
 
