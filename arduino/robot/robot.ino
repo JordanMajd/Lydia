@@ -3,15 +3,24 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_PWMServoDriver.h>
 
-const char* ssid = "...";
-const char* pass = "...";
-
 #define MAX 600
 #define RESET 400
 #define MIN 150
 
-ESP8266WebServer server(80);
-Adafruit_PWMServoDriver pwmDriver = Adafruit_PWMServoDriver();
+const char* ssid = "...";
+const char* pass = "...";
+
+enum w_direction {
+  FORWARD,
+  BACKWARD,
+  LEFT,
+  RIGHT
+};
+
+enum t_direction {
+  CLOCKWISE,
+  COUNTER
+};
 
 uint8_t hip = 0;
 uint8_t knee = 1;
@@ -21,6 +30,9 @@ uint8_t fl[2] = {0,4};
 uint8_t fr[2] = {1,5};
 uint8_t bl[2] = {2,6};
 uint8_t br[2] = {3,7};
+
+ESP8266WebServer server(80);
+Adafruit_PWMServoDriver pwmDriver = Adafruit_PWMServoDriver();
 
 void setup(){
 
@@ -58,13 +70,14 @@ void loop(){
   server.handleClient();
 }
 
+/*
+ *  HTTP  Methods
+ */
+
 // GET /
-// Returns API info
-// TODO
 void handleRoot(){
   server.send(200, "application/json", "{\"message\":\"success!\"}");
 }
-
 
 void handleError(){
   
@@ -85,34 +98,56 @@ void handleError(){
   server.send(404, "application/json",  msg);
 }
 
-// POST /walk
-// Direction:
-// - Forward
-// - Left
-// - Right
-// - Backward
-// Duration
+// POST /walk?direction=forward&duration=3000
 void handleWalk(){
-  
-  moveLeg(fl);
-  moveLeg(br);
-  moveLeg(fr);
-  moveLeg(bl);
 
-  moveBody();
-
-  server.send(200, "application/json", "{\"message\":\"Success!\"}");
+  if(isValid()) {
+    
+   String direction = server.arg("direction");
+   uint16_t  duration = server.arg("duration").toInt();
+   
+    walk(direction, duration);
+    
+    server.send(200, "application/json", "{\"message\":\"Success!\"}");
+    
+  } else {
+    handleError();
+  }
 }
 
 
-// POST /turn
-// Direction
-//  - Clockwise
-//  - Counter-clockwise
-// Duration
+// POST /turn?direction=clockwise&duration=3000
 void handleTurn(){
-  server.send(403, "application/json", "{\"message\":\"Not Implemented!\"}");
+
+  if(isValid()){
+
+   String direction = server.arg("direction");
+   uint16_t  duration = server.arg("duration").toInt();
+   
+    turn(direction, duration);
+    
+    server.send(200, "application/json", "{\"message\":\"Success!\"}");
+  } else {
+    handleError();
+  }
 }
+
+
+bool isValid(){
+
+  bool isValid = true;
+
+  isValid = server.args() == 2;
+  isValid = server.arg("direction").length() > 0;
+  isValid = server.arg("duration").length() > 0;
+
+  return isValid;
+}
+
+
+/*
+ *  Robot  Control Methods
+ */
 
 void center(){
 
@@ -121,6 +156,21 @@ void center(){
   }
 
   delay(300);
+}
+
+void walk( String direction, int duration ){
+
+  moveLeg(fl);
+  moveLeg(br);
+  moveLeg(fr);
+  moveLeg(bl);
+
+  moveBody();
+}
+
+void turn(String direction, int duration){
+
+  
 }
 
 
