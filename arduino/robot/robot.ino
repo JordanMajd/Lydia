@@ -4,7 +4,7 @@
 #include <Adafruit_PWMServoDriver.h>
 
 const char* ssid = "...";
-const char* pass = "...r";
+const char* pass = "...";
 
 #define MAX 600
 #define RESET 400
@@ -44,7 +44,7 @@ void setup(){
   pwmDriver.begin();
   pwmDriver.setPWMFreq(60);
   // center leg position
-  center();
+ // center();
 
   // init server & routes
   server.on("/", handleRoot);
@@ -66,9 +66,23 @@ void handleRoot(){
 }
 
 
-// TODO send useful error message
 void handleError(){
-  server.send(404, "application/json", "{\"message\":\"Something went wrong!\"}");
+  
+  String mthd = server.method() == HTTP_GET ? "GET" : "POST";
+  String msg = "{";
+  msg += "\n\"message\":\"";
+  msg +=  "404: Something went wrong!\",";
+  msg += "\n\"URI\":\"" + server.uri() + "\",";
+  msg += "\n\"Method\":\"" + mthd + "\",";
+  msg += "\n\"Args\":{";
+
+  for(uint8_t i = 0; i < server.args(); i++){
+    msg += "\n\"" + server.argName(i) + "\":\"" + server.arg(i)  + "\",";
+  }
+
+  msg += "\n}\n}";
+  
+  server.send(404, "application/json",  msg);
 }
 
 // POST /walk
