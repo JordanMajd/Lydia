@@ -84,7 +84,7 @@ void handleError(){
   String mthd = server.method() == HTTP_GET ? "GET" : "POST";
   String msg = "{";
   msg += "\n\"message\":\"";
-  msg +=  "404: Something went wrong!\",";
+  msg +=  "404: Invalid Request:\",";
   msg += "\n\"URI\":\"" + server.uri() + "\",";
   msg += "\n\"Method\":\"" + mthd + "\",";
   msg += "\n\"Args\":{";
