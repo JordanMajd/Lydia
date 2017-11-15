@@ -3,10 +3,6 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_PWMServoDriver.h>
 
-#define MAX 600
-#define RESET 400
-#define MIN 150
-
 const char* ssid = "...";
 const char* pass = "...";
 
@@ -22,14 +18,25 @@ enum t_direction {
   COUNTER
 };
 
-uint8_t hip = 0;
-uint8_t knee = 1;
+struct leg {
+  uint8_t hip_pin;
+  uint8_t knee_pin;
+  uint16_t hip_forward;
+  uint16_t hip_backward;
+  uint16_t knee_up;
+  uint16_t knee_down;
+};
 
-//{hip, knee}
-uint8_t fl[2] = {0,4};
-uint8_t fr[2] = {1,5};
-uint8_t bl[2] = {2,6};
-uint8_t br[2] = {3,7};
+#define PMIN 150
+#define PMAX 500
+#define dlen 500
+
+//black screws = front
+struct leg fl {5, 4, PMAX, PMIN, PMIN, PMAX};
+struct leg fr {6, 7, PMIN, PMAX, PMAX, PMIN};
+struct leg bl {2, 3, PMAX, PMIN, PMAX, PMIN};
+struct leg br {1, 0, PMIN, PMAX, PMIN, PMAX};
+
 
 ESP8266WebServer server(80);
 Adafruit_PWMServoDriver pwmDriver = Adafruit_PWMServoDriver();
@@ -55,8 +62,6 @@ void setup(){
   // init pwm
   pwmDriver.begin();
   pwmDriver.setPWMFreq(60);
-  // center leg position
- // center();
 
   // init server & routes
   server.on("/", handleRoot);
@@ -149,16 +154,9 @@ bool isValid(){
  *  Robot  Control Methods
  */
 
-void center(){
-
-  for (uint8_t curServo = 0; curServo < 7; curServo++){
-    pwmDriver.setPWM(curServo, 0, RESET);
-  }
-
-  delay(300);
-}
-
 void walk( String direction, int duration ){
+
+  Serial.println("Walk: " + direction + ", " + duration);
 
   moveLeg(fl);
   moveLeg(br);
@@ -169,35 +167,50 @@ void walk( String direction, int duration ){
 }
 
 void turn(String direction, int duration){
-
   
+  Serial.println("Turn: " + direction + ", " + duration);
 }
 
 
-void moveLeg(uint8_t *leg){
+void moveLeg(leg l){
 
   //move knee up
-  pwmDriver.setPWM(leg[knee], 0, MAX);
+  pwmDriver.setPWM(l.knee_pin, 0, l.knee_up);
 
-  delay(300);
+  delay(dlen);
 
   //move hip forward
-  pwmDriver.setPWM(leg[hip], 0, MAX);
+  pwmDriver.setPWM(l.hip_pin, 0, l.hip_forward);
 
-  delay(300);
+  delay(dlen);
 
   //move knee down
-  pwmDriver.setPWM(leg[knee], 0, MIN);
+  pwmDriver.setPWM(l.knee_pin, 0, l.knee_down);
   
-  delay(300);
+  delay(dlen);
 }
 
 void moveBody(){
-  pwmDriver.setPWM(fl[hip], 0, MIN);
-  pwmDriver.setPWM(bl[hip], 0, MIN);
-  pwmDriver.setPWM(fr[hip], 0, MIN);
-  pwmDriver.setPWM(fl[hip], 0, MIN);
+  pwmDriver.setPWM(fl.hip_pin, 0, fl.hip_forward);
+  pwmDriver.setPWM(fr.hip_pin, 0, fr.hip_forward);
+  pwmDriver.setPWM(bl.hip_pin, 0, bl.hip_forward);
+  pwmDriver.setPWM(br.hip_pin, 0, br.hip_forward);
 
-  delay(300);
+  delay(dlen);
 }
+
+void calibrateForward(){
+  pwmDriver.setPWM(fl.hip_pin, 0, fl.hip_forward);
+  pwmDriver.setPWM(fr.hip_pin, 0, fr.hip_forward);
+  pwmDriver.setPWM(bl.hip_pin, 0, bl.hip_forward);
+  pwmDriver.setPWM(br.hip_pin, 0, br.hip_forward);
+}
+
+void calibrateUp(){
+  pwmDriver.setPWM(fl.knee_pin, 0, fl.knee_up);
+  pwmDriver.setPWM(fr.knee_pin, 0, fr.knee_up);
+  pwmDriver.setPWM(bl.knee_pin, 0, bl.knee_up);
+  pwmDriver.setPWM(br.knee_pin, 0, br.knee_up);
+}
+
 
