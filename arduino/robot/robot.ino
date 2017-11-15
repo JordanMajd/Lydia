@@ -191,10 +191,10 @@ void moveLeg(leg l){
 }
 
 void moveBody(){
-  pwmDriver.setPWM(fl.hip_pin, 0, fl.hip_forward);
-  pwmDriver.setPWM(fr.hip_pin, 0, fr.hip_forward);
-  pwmDriver.setPWM(bl.hip_pin, 0, bl.hip_forward);
-  pwmDriver.setPWM(br.hip_pin, 0, br.hip_forward);
+  pwmDriver.setPWM(fl.hip_pin, 0, fl.hip_backward);
+  pwmDriver.setPWM(fr.hip_pin, 0, fr.hip_backward);
+  pwmDriver.setPWM(bl.hip_pin, 0, bl.hip_backward);
+  pwmDriver.setPWM(br.hip_pin, 0, br.hip_backward);
 
   delay(dlen);
 }
